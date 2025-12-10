@@ -1,0 +1,8 @@
+{
+    "source_name": "foobar",
+    "devices": [
+        {
+            "public_key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1DH+MJNeLXUcErjp5T5PTW+Dum8qVsDPHqhXCYAqf7H3vSdwXgEiEjaPr/W30i7rmMhLHH6jQr1ussI0jmeVrQfB8a+WHnu5bf34yhYJecIspgD6idQ1E0PMYuwbDR2WVCZIaUNKlbgliww2Ezum120aEdmMNg0Z4LsQm96c5q6GlRN8q9xpE9HqIi3tXCrBHVaiKqx3jUdJxR2XnwYYHdnnebCk1Mw0PhIPMtaqPVdGJnQ7uRloYKw6PAsruB1dsIV09K/D0TLxDsNvPKG0lGEd9PVL4AFjy4PU7FRzVzScQRgcXXXIQwWnja0o/832urWs5vzMaibH1RMQ5RQ0jQIDAQAB"
+        }
+    ]
+}
