@@ -1,4 +1,4 @@
-package com.example.phonepam
+package dev.ve5li.lanpam
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.phonepam
+package dev.ve5li.lanpam
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -8,8 +8,8 @@ import android.util.Log
 
 class PamActionReceiver : BroadcastReceiver() {
     companion object {
-        const val ACTION_ACCEPT = "com.example.phonepam.ACTION_ACCEPT"
-        const val ACTION_REJECT = "com.example.phonepam.ACTION_REJECT"
+        const val ACTION_ACCEPT = "dev.ve5li.lanpam.ACTION_ACCEPT"
+        const val ACTION_REJECT = "dev.ve5li.lanpam.ACTION_REJECT"
         const val EXTRA_REQUEST_ID = "request_id"
         const val EXTRA_NOTIFICATION_ID = "notification_id"
     }

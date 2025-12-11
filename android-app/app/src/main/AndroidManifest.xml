@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -14,12 +13,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PhonePam">
+        android:theme="@style/Theme.LanPam">
         <activity
-            android:name=".MainActivity"
+            android:name="dev.ve5li.lanpam.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.PhonePam">
+            android:theme="@style/Theme.LanPam">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,11 +27,11 @@
         </activity>
 
         <receiver
-            android:name=".PamActionReceiver"
+            android:name="dev.ve5li.lanpam.PamActionReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.example.phonepam.ACTION_ACCEPT" />
-                <action android:name="com.example.phonepam.ACTION_REJECT" />
+                <action android:name="dev.ve5li.lanpam.ACTION_ACCEPT" />
+                <action android:name="dev.ve5li.lanpam.ACTION_REJECT" />
             </intent-filter>
         </receiver>
     </application>

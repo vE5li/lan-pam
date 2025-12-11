@@ -2,7 +2,14 @@
     "source_name": "foobar",
     "devices": [
         {
-            "public_key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1DH+MJNeLXUcErjp5T5PTW+Dum8qVsDPHqhXCYAqf7H3vSdwXgEiEjaPr/W30i7rmMhLHH6jQr1ussI0jmeVrQfB8a+WHnu5bf34yhYJecIspgD6idQ1E0PMYuwbDR2WVCZIaUNKlbgliww2Ezum120aEdmMNg0Z4LsQm96c5q6GlRN8q9xpE9HqIi3tXCrBHVaiKqx3jUdJxR2XnwYYHdnnebCk1Mw0PhIPMtaqPVdGJnQ7uRloYKw6PAsruB1dsIV09K/D0TLxDsNvPKG0lGEd9PVL4AFjy4PU7FRzVzScQRgcXXXIQwWnja0o/832urWs5vzMaibH1RMQ5RQ0jQIDAQAB"
+            "name": "Phone",
+            "ip_address": "192.168.188.12:4200",
+            "public_key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1SN9GdLat9NI7yhczu8DgGX0VbewMvDXWNo6+CnTCpyITXmYCzv/0GkuuCXrG3C876R9HC3f2j6PfWEsc1NWTgQyI01OqATVw5PD0eEwaH3vAmdaHXSJurXJDbg9B2XQ+L2IkPf1uWlMyxrOGlMtRSt8Zn+Tm1eitrc8K4pQp+xCYPe26vie3Rvq11l9mIHWrj7y4mdGL0ILQQ3LkQunOxgtARRIs5ZXmskAeQQIiyT5d9MTVhz6EglB7bwnVTg+Ku3o02LVC27YNNHfFtqC1TAc2y4VV9pRPuVRCHZkKQvUaHbVyQbkR0TAjd/RtC8ys/KV/zynAsNipn/gStxAMQIDAQAB"
+        },
+        {
+            "name": "Emulator",
+            "ip_address": "localhost:4200",
+            "public_key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwTemHToIczMLCc3Qj95KyPak93SzhxazI1lYyG9ApFD7lm0nHuD+WG3nEQB84RHgdLwHre8Rw6MI548OuOqCXbOn3G5TbmtjgUjOYZMSwLCDWEhlwiO05yKYbX06Fqgz1mPkUZSdbCQEPYbUh1O649dUDu9VSOa060fDBimtlp3mlvbCyIle5WhbcYPZj5t3DYgSHrOj6Cutw71naNlvDR3aH0dhw0/HkLv8p5p+PdUJa8SqCtGqLoRJXRfdOd6ofy1ebdhzv1Z274m9eKFscjbxPKhLEU7J3uWnIfAcNcMpbwrmKuNxvTkJWsmI2o6+J8ZaP2WV05quXYJiyFeIQwIDAQAB"
         }
     ]
 }

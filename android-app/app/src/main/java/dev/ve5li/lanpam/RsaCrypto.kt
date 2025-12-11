@@ -1,4 +1,4 @@
-package com.example.phonepam
+package dev.ve5li.lanpam
 
 import android.content.Context
 import android.util.Base64

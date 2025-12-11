@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PhonePam"
+rootProject.name = "LanPam"
 include(":app")

@@ -1,4 +1,4 @@
-package com.example.phonepam.ui.theme
+package dev.ve5li.lanpam.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

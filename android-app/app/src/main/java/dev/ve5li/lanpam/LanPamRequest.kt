@@ -1,4 +1,4 @@
-package com.example.phonepam
+package dev.ve5li.lanpam
 
 import android.util.Base64
 import com.google.gson.annotations.SerializedName
@@ -23,9 +23,4 @@ data class LanPamRequestBody(
     val user: String?,
     val service: String?,
     val type: String?,
-    val secret: String
-) {
-    fun getSecretBytes(): ByteArray {
-        return Base64.decode(secret, Base64.DEFAULT)
-    }
-}
+)

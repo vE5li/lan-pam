@@ -26,6 +26,11 @@
 
         # For any tools that need to see the rust toolchain src
         RUST_SRC_PATH = pkgs.rustPlatform.rustLibSrc;
+
+        # For testing.
+        PAM_USER = "test";
+        PAM_SERVICE = "test";
+        PAM_TYPE = "sshd";
       };
 
       packages.lan-pam = pkgs.rustPlatform.buildRustPackage rec {

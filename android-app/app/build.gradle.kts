@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.phonepam"
+    namespace = "dev.ve5li.lanpam"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.phonepam"
+        applicationId = "dev.ve5li.lanpam"
         minSdk = 34
         targetSdk = 36
         versionCode = 1

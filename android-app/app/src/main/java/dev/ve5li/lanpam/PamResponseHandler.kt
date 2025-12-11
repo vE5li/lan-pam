@@ -1,4 +1,4 @@
-package com.example.phonepam
+package dev.ve5li.lanpam
 
 import kotlinx.coroutines.CompletableDeferred
 import java.util.UUID

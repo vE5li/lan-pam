@@ -1,4 +1,4 @@
-package com.example.phonepam
+package dev.ve5li.lanpam
 
 import android.Manifest
 import android.content.ClipData
@@ -24,18 +24,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.example.phonepam.ui.theme.PhonePamTheme
+import dev.ve5li.lanpam.ui.theme.LanPamTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    private lateinit var udpListener: UdpBroadcastListener
+    private lateinit var tcpListener: TcpListener
     private lateinit var rsaCrypto: RsaCrypto
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            startUdpListener()
+            startTcpListener()
         }
     }
 
@@ -44,10 +44,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         rsaCrypto = RsaCrypto(this)
-        udpListener = UdpBroadcastListener(this, rsaCrypto, 4200)
+        tcpListener = TcpListener(this, rsaCrypto, 4200)
 
         setContent {
-            PhonePamTheme {
+            LanPamTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     PublicKeyScreen(
                         publicKey = rsaCrypto.getPublicKeyBase64(),
@@ -67,26 +67,26 @@ class MainActivity : ComponentActivity() {
                     this,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    startUdpListener()
+                    startTcpListener()
                 }
                 else -> {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
         } else {
-            startUdpListener()
+            startTcpListener()
         }
     }
 
-    private fun startUdpListener() {
+    private fun startTcpListener() {
         lifecycleScope.launch {
-            udpListener.start()
+            tcpListener.start()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        udpListener.stop()
+        tcpListener.stop()
     }
 }
 
@@ -102,7 +102,7 @@ fun PublicKeyScreen(publicKey: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Phone PAM",
+            text = "Lan PAM",
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -140,7 +140,7 @@ fun PublicKeyScreen(publicKey: String, modifier: Modifier = Modifier) {
         }
 
         Text(
-            text = "The app is listening for authentication requests on UDP port 4200.",
+            text = "The app is listening for authentication requests on TCP port 4200.",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -150,7 +150,7 @@ fun PublicKeyScreen(publicKey: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun PublicKeyScreenPreview() {
-    PhonePamTheme {
+    LanPamTheme {
         PublicKeyScreen("PREVIEW_KEY_NOT_REAL_abcdefghijklmnopqrstuvwxyz1234567890")
     }
 }
