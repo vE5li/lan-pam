@@ -209,15 +209,6 @@ async fn main() {
         serde_json::to_string(&body).unwrap()
     };
 
-    // Task for handling Ctrl+C for cancelling the pending request.
-    tokio::task::spawn(async {
-        tokio::signal::ctrl_c().await.unwrap();
-        println!("request cancelled by user");
-
-        // Request cancelled.
-        std::process::exit(1);
-    });
-
     // Tasks for each device to handle the networking + encryption.
     {
         let mut join_set = JoinSet::new();
