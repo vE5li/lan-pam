@@ -96,4 +96,8 @@ class PamNotificationManager(private val context: Context) {
         notificationManager.notify(notificationId, notification)
         return notificationId
     }
+
+    fun cancelNotification(notificationId: Int) {
+        notificationManager.cancel(notificationId)
+    }
 }

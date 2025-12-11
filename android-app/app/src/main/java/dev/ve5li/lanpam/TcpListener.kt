@@ -4,6 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -90,10 +93,35 @@ class TcpListener(
 
                 // Show notification and wait for user response
                 val requestId = PamResponseHandler.createRequest()
-                notificationManager.showPamRequest(requestId, requestBody)
+                val notificationId = notificationManager.showPamRequest(requestId, requestBody)
                 Log.d("TcpListener", "Notification shown, waiting for user response...")
 
-                val accepted = PamResponseHandler.awaitResponse(requestId)
+                // Monitor socket connection and cancel notification if disconnected
+                val monitorJob = launch {
+                    try {
+                        // Try to read from socket to detect disconnection
+                        val monitorBuffer = ByteArray(1)
+                        val bytesRead = inputStream.read(monitorBuffer)
+
+                        if (bytesRead == -1) {
+                            // Socket disconnected
+                            Log.d("TcpListener", "Socket disconnected, canceling notification")
+                            PamResponseHandler.cancelRequest(requestId)
+                            notificationManager.cancelNotification(notificationId)
+                        }
+                    } catch (e: Exception) {
+                        // Any exception (timeout, reset, etc.) means disconnection
+                        Log.d("TcpListener", "Socket error detected, canceling notification: ${e.message}")
+                        PamResponseHandler.cancelRequest(requestId)
+                        notificationManager.cancelNotification(notificationId)
+                    }
+                }
+
+                val accepted = try {
+                    PamResponseHandler.awaitResponse(requestId)
+                } finally {
+                    monitorJob.cancel()
+                }
                 Log.d("TcpListener", "User response: ${if (accepted) "ACCEPTED" else "REJECTED"}")
 
                 // Create response
