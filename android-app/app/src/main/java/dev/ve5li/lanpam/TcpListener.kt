@@ -3,6 +3,7 @@ package dev.ve5li.lanpam
 import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -96,6 +97,9 @@ class TcpListener(
                 val notificationId = notificationManager.showPamRequest(requestId, requestBody)
                 Log.d("TcpListener", "Notification shown, waiting for user response...")
 
+                // Track if request was cancelled
+                var wasCancelled = false
+
                 // Monitor socket connection and cancel notification if disconnected
                 val monitorJob = launch {
                     try {
@@ -106,12 +110,17 @@ class TcpListener(
                         if (bytesRead == -1) {
                             // Socket disconnected
                             Log.d("TcpListener", "Socket disconnected, canceling notification")
+                            wasCancelled = true
                             PamResponseHandler.cancelRequest(requestId)
                             notificationManager.cancelNotification(notificationId)
                         }
+                    } catch (e: CancellationException) {
+                        // Job was cancelled normally (user responded), this is expected
+                        throw e
                     } catch (e: Exception) {
-                        // Any exception (timeout, reset, etc.) means disconnection
+                        // Any other exception (timeout, reset, etc.) means disconnection
                         Log.d("TcpListener", "Socket error detected, canceling notification: ${e.message}")
+                        wasCancelled = true
                         PamResponseHandler.cancelRequest(requestId)
                         notificationManager.cancelNotification(notificationId)
                     }
@@ -123,6 +132,16 @@ class TcpListener(
                     monitorJob.cancel()
                 }
                 Log.d("TcpListener", "User response: ${if (accepted) "ACCEPTED" else "REJECTED"}")
+
+                // Record to history based on what happened
+                val status = if (wasCancelled) {
+                    RequestStatus.CANCELLED
+                } else if (accepted) {
+                    RequestStatus.ACCEPTED
+                } else {
+                    RequestStatus.REJECTED
+                }
+                RequestHistoryManager.addRequest(requestId, requestBody, status)
 
                 // Create response
                 val response = LanPamResponse.create(
