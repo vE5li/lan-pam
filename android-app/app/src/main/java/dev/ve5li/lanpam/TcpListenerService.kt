@@ -125,7 +125,7 @@ class TcpListenerService : Service() {
         )
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("LanPAM Active")
+            .setContentTitle("LAN-PAM Active")
             .setSmallIcon(android.R.drawable.ic_lock_lock)
             .setContentIntent(pendingIntent)
             .setOngoing(true)

@@ -97,7 +97,7 @@ fun PublicKeyScreen(publicKey: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Lan PAM",
+            text = "LAN-PAM",
             style = MaterialTheme.typography.headlineMedium
         )
 
