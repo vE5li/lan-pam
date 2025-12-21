@@ -12,13 +12,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -26,12 +24,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import dev.ve5li.lanpam.ui.theme.GradientBottom
+import dev.ve5li.lanpam.ui.theme.GradientTop
 import dev.ve5li.lanpam.ui.theme.LanPamTheme
 
 class MainActivity : ComponentActivity() {
@@ -53,11 +53,27 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             LanPamTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    PublicKeyScreen(
-                        publicKey = rsaCrypto.getPublicKeyBase64(),
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    GradientTop,
+                                    GradientBottom
+                                )
+                            )
+                        )
+                ) {
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        containerColor = androidx.compose.ui.graphics.Color.Transparent
+                    ) { innerPadding ->
+                        PublicKeyScreen(
+                            publicKey = rsaCrypto.getPublicKeyBase64(),
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
                 }
             }
         }
@@ -66,7 +82,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun checkNotificationPermissionAndStart() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             when {
                 ContextCompat.checkSelfPermission(
                     this,
@@ -78,9 +93,6 @@ class MainActivity : ComponentActivity() {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
-        } else {
-            startTcpListenerService()
-        }
     }
 
     private fun startTcpListenerService() {
@@ -102,8 +114,8 @@ fun PublicKeyScreen(publicKey: String, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -112,7 +124,9 @@ fun PublicKeyScreen(publicKey: String, modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = "LAN-PAM",
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
             )
 
             IconButton(
@@ -125,7 +139,8 @@ fun PublicKeyScreen(publicKey: String, modifier: Modifier = Modifier) {
             ) {
                 Icon(
                     imageVector = Icons.Filled.Lock,
-                    contentDescription = "Copy Public Key"
+                    contentDescription = "Copy Public Key",
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -140,7 +155,7 @@ fun PublicKeyScreen(publicKey: String, modifier: Modifier = Modifier) {
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(history) { entry ->
                     RequestHistoryItem(entry)
@@ -155,7 +170,10 @@ fun RequestHistoryItem(entry: RequestHistoryEntry) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
         )
     ) {
         Column(
@@ -172,7 +190,8 @@ fun RequestHistoryItem(entry: RequestHistoryEntry) {
                 Text(
                     text = "${entry.service.uppercase()}·${entry.type.uppercase()}: ${entry.user}",
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 StatusBadge(status = entry.status)
             }
@@ -199,22 +218,34 @@ fun RequestHistoryItem(entry: RequestHistoryEntry) {
 
 @Composable
 fun StatusBadge(status: RequestStatus) {
-    val (text, color) = when (status) {
-        RequestStatus.ACCEPTED -> "Accepted" to MaterialTheme.colorScheme.primary
-        RequestStatus.REJECTED -> "Rejected" to MaterialTheme.colorScheme.error
-        RequestStatus.CANCELLED -> "Cancelled" to MaterialTheme.colorScheme.outline
+    val (text, backgroundColor, textColor) = when (status) {
+        RequestStatus.ACCEPTED -> Triple(
+            "Accepted",
+            MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
+            MaterialTheme.colorScheme.tertiary
+        )
+        RequestStatus.REJECTED -> Triple(
+            "Rejected",
+            MaterialTheme.colorScheme.error.copy(alpha = 0.2f),
+            MaterialTheme.colorScheme.error
+        )
+        RequestStatus.CANCELLED -> Triple(
+            "Cancelled",
+            MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
+            MaterialTheme.colorScheme.secondary
+        )
     }
 
     Surface(
-        color = color.copy(alpha = 0.12f),
-        shape = MaterialTheme.shapes.small
+        color = backgroundColor,
+        shape = MaterialTheme.shapes.small,
     ) {
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             style = MaterialTheme.typography.labelSmall,
-            color = color,
-            fontWeight = FontWeight.Medium
+            color = textColor,
+            fontWeight = FontWeight.Bold
         )
     }
 }

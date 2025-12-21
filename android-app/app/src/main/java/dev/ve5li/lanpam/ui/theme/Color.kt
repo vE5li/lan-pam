@@ -2,10 +2,16 @@ package dev.ve5li.lanpam.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Gradient colors
+val GradientTop = Color(0xFFFFD56C)
+val GradientBottom = Color(0xFFFF14EC)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// UI colors
+val BackgroundDark = Color(0xFF1A0D2E)
+val TextPrimary = Color(0xFF00FFFF)
+val TextSecondary = Color(0xFFFF6CEB)
+
+// Status colors
+val StatusSuccess = Color(0xFF00FFFF)
+val StatusError = Color(0xFFFF9900)
+val StatusNeutral = Color(0xFFFF00AA)
