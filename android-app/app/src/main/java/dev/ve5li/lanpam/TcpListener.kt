@@ -32,7 +32,10 @@ class TcpListener(
             while (isRunning) {
                 try {
                     val clientSocket = serverSocket?.accept() ?: break
-                    Log.d("TcpListener", "Accepted connection from ${clientSocket.inetAddress.hostAddress}")
+                    Log.d(
+                        "TcpListener",
+                        "Accepted connection from ${clientSocket.inetAddress.hostAddress}"
+                    )
 
                     handleClient(clientSocket)
                 } catch (e: Exception) {
@@ -63,7 +66,10 @@ class TcpListener(
             }
 
             val message = String(buffer, 0, bytesRead)
-            Log.d("TcpListener", "Received raw: $message from ${clientSocket.inetAddress.hostAddress}")
+            Log.d(
+                "TcpListener",
+                "Received raw: $message from ${clientSocket.inetAddress.hostAddress}"
+            )
 
             try {
                 // Parse envelope
@@ -75,7 +81,9 @@ class TcpListener(
                 val cipherKey = rsaCrypto.rsaDecrypt(encryptedKey)
                 Log.d("TcpListener", "Decrypted cipher key: ${cipherKey.size} bytes")
 
-                Log.d("TcpListener", "Decrypted cipher key: ${cipherKey.map { it.toInt() and 0xFF } }")
+                Log.d(
+                    "TcpListener",
+                    "Decrypted cipher key: ${cipherKey.map { it.toInt() and 0xFF }}")
 
                 // Decrypt body with AES
                 val encryptedBody = envelope.getEncryptedBodyBytes()
@@ -118,7 +126,10 @@ class TcpListener(
                         throw e
                     } catch (e: Exception) {
                         // Any other exception (timeout, reset, etc.) means disconnection
-                        Log.d("TcpListener", "Socket error detected, canceling notification: ${e.message}")
+                        Log.d(
+                            "TcpListener",
+                            "Socket error detected, canceling notification: ${e.message}"
+                        )
                         wasCancelled = true
                         PamResponseHandler.cancelRequest(requestId)
                         notificationManager.cancelNotification(notificationId)

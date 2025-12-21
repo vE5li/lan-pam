@@ -23,6 +23,7 @@ class PamActionReceiver : BroadcastReceiver() {
                 Log.d("PamActionReceiver", "User accepted request $requestId")
                 PamResponseHandler.respondToRequest(requestId, true)
             }
+
             ACTION_REJECT -> {
                 Log.d("PamActionReceiver", "User rejected request $requestId")
                 PamResponseHandler.respondToRequest(requestId, false)
@@ -30,7 +31,8 @@ class PamActionReceiver : BroadcastReceiver() {
         }
 
         if (notificationId != -1) {
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.cancel(notificationId)
         }
     }

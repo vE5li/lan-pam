@@ -76,14 +76,18 @@ class RsaCrypto(context: Context) {
         // Save private key
         val privateEncoded = keyPair.private.encoded
         val privateBase64 = Base64.encodeToString(privateEncoded, Base64.NO_WRAP)
-        val privatePem = "-----BEGIN PRIVATE KEY-----\n${privateBase64.chunked(64).joinToString("\n")}\n-----END PRIVATE KEY-----"
+        val privatePem = "-----BEGIN PRIVATE KEY-----\n${
+            privateBase64.chunked(64).joinToString("\n")
+        }\n-----END PRIVATE KEY-----"
         privateKeyFile.writeText(privatePem)
         Log.d("RsaCrypto", "Private key saved to ${privateKeyFile.absolutePath}")
 
         // Save public key
         val publicEncoded = keyPair.public.encoded
         val publicBase64 = Base64.encodeToString(publicEncoded, Base64.NO_WRAP)
-        val publicPem = "-----BEGIN PUBLIC KEY-----\n${publicBase64.chunked(64).joinToString("\n")}\n-----END PUBLIC KEY-----"
+        val publicPem = "-----BEGIN PUBLIC KEY-----\n${
+            publicBase64.chunked(64).joinToString("\n")
+        }\n-----END PUBLIC KEY-----"
         publicKeyFile.writeText(publicPem)
         Log.d("RsaCrypto", "Public key saved to ${publicKeyFile.absolutePath}")
     }

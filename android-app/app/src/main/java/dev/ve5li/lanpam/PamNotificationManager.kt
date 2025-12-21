@@ -9,7 +9,8 @@ import androidx.core.app.NotificationCompat
 import java.util.concurrent.atomic.AtomicInteger
 
 class PamNotificationManager(private val context: Context) {
-    private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     private val notificationIdCounter = AtomicInteger(1000)
 
     companion object {
