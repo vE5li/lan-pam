@@ -1,7 +1,5 @@
 package dev.ve5li.lanpam
 
-import android.util.Base64
-
 data class LanPamResponse(
     val device: String,
     val accepted: Boolean

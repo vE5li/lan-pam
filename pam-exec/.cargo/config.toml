@@ -1,3 +1,0 @@
-[env]
-# Tell bindgen where to find PAM headers from your custom location
-BINDGEN_EXTRA_CLANG_ARGS = { value = "-I${PAM_SECURITY_DIR}", force = true, relative = false }

@@ -124,9 +124,4 @@ object RequestHistoryManager {
         _history.value = listOf(entry) + _history.value
         saveHistory()
     }
-
-    fun clear() {
-        _history.value = emptyList()
-        saveHistory()
-    }
 }
