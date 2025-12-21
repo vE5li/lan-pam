@@ -18,7 +18,8 @@ class TcpListener(
     private val port: Int = 4200
 ) {
     private var serverSocket: ServerSocket? = null
-    private var isRunning = false
+    var isRunning = false
+        private set
     private val gson = Gson()
     private val notificationManager = PamNotificationManager(context)
 

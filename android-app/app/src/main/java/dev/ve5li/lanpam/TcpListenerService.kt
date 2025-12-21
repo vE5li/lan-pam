@@ -71,9 +71,13 @@ class TcpListenerService : Service() {
             Log.d("TcpListenerService", "Wake lock acquired")
         }
 
-        // Start TCP listener in service scope
-        serviceScope.launch {
-            tcpListener.start()
+        // Start TCP listener in service scope only if not already running
+        if (!tcpListener.isRunning) {
+            serviceScope.launch {
+                tcpListener.start()
+            }
+        } else {
+            Log.d("TcpListenerService", "TCP listener already running, skipping start")
         }
 
         // If the service is killed, restart it
