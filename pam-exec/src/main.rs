@@ -16,12 +16,16 @@ use tokio::{io::AsyncWriteExt, net::TcpStream};
 /// request.
 const MTU: usize = 1200;
 
+/// Request sent to devices over TCP.
 #[derive(Serialize)]
 struct LanPamRequest {
+    /// RSA-encrypted AES key, base64 encoded.
     encrypted_key: String,
+    /// AES-encrypted request body, base64 encoded.
     encrypted_body: String,
 }
 
+/// Body of the request that gets encrypted and sent to devices.
 #[derive(Serialize)]
 struct LanPamRequestBody {
     /// Dispaly name of the request source.
@@ -34,28 +38,35 @@ struct LanPamRequestBody {
     r#type: String,
 }
 
+/// Response received from a device after it processes the request.
 #[derive(Deserialize)]
 struct LanPamResponse {
     /// Weather or not the request was accepted or denied.
     accepted: bool,
 }
 
+/// Configuration for a trusted device that can approve/reject requests.
 #[derive(Deserialize)]
 struct Device {
     /// Display name of the device that responded.
     name: String,
     /// IP address of the device.
     ip_address: String,
-    /// Public key
+    /// Public key (base64 encoded DER format).
     public_key: String,
 }
 
+/// Main configuration loaded from JSON file.
 #[derive(Deserialize)]
 struct Configuration {
+    /// Display name of this machine (shown on devices).
     source_name: String,
+    /// List of trusted devices that can approve/reject requests.
     devices: Vec<Device>,
 }
 
+/// Handles communication with a single device: encrypts and sends the request,
+/// waits for response, and exits the program if request is accepted or rejected.
 async fn handle_device(device: Device, encoded_body: String) {
     let Ok(mut tcp_stream) = TcpStream::connect(&device.ip_address).await else {
         println!(
